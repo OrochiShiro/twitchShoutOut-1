@@ -134,6 +134,7 @@ var app = new Vue({
  
     var d = new Date();
     d.setDate(d.getDate() - 31);
+    print(ISODateString(d))
 
     getClips.open("GET", "https://api.twitch.tv/helix/clips?broadcaster_id=" + shoutout_id + "&first=100&started_at=" + ISODateString(d));
     getClips.setRequestHeader('Client-ID', 'cjw2ewijhdkcfvm194n67pvlqvo4rr');
