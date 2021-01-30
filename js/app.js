@@ -136,7 +136,7 @@ var app = new Vue({
     d.setDate(d.getDate() - 31);
     console.log(ISODateString(d))
 
-    getClips.open("GET", "https://api.twitch.tv/helix/clips?broadcaster_id=" + shoutout_id + "&first=1000&started_at=" + ISODateString(d));
+    getClips.open("GET", "https://api.twitch.tv/helix/clips?broadcaster_id=" + shoutout_id + "&first=100&started_at=" + ISODateString(d));
     getClips.setRequestHeader('Client-ID', 'cjw2ewijhdkcfvm194n67pvlqvo4rr');
     getClips.setRequestHeader('Authorization', 'Bearer ' + access_token);
     getClips.send();
@@ -171,7 +171,8 @@ var app = new Vue({
       }
     }
 
-    while(broadcasterClips == [] && exhausted == false && onlymyclips == true){
+    while(broadcasterClips.length < 1 && exhausted == false && onlymyclips == true){
+      console.log("going looking")
       var getClips = new XMLHttpRequest();
 
       getClips.open("GET", "https://api.twitch.tv/helix/clips?broadcaster_id=" + shoutout_id + "&after=" + clips[clips.length - 1].pagination);
@@ -188,23 +189,23 @@ var app = new Vue({
         }
 
         for (x in moreclips){
-          if(onlymyclips){
-            if(moreclips[x].creator_id == broadcast_id){
-              broadcasterClips.push(moreclips[x].embed_url)
-            }
-          } else {
+          if(moreclips[x].creator_id == broadcast_id){
             broadcasterClips.push(moreclips[x].embed_url)
+            console.log("found a clip")
           }
         }
       }
     }
 
-    randomClip = getRandomInt(0, (broadcasterClips.length - 1))
+    if(broadcasterClips.length > 1){
+      randomClip = getRandomInt(0, (broadcasterClips.length - 1))
 
-    app.clipSource = broadcasterClips[randomClip]
-    app.playing = true
+      app.clipSource = broadcasterClips[randomClip]
+      app.playing = true
+  
+      setTimeout(stopPlayer, 15000)
+    }
 
-    setTimeout(stopPlayer, 15000)
 
   }
 
