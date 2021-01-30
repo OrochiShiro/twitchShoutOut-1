@@ -203,6 +203,7 @@ function chooseClips(clips, pagination){
   
         app.clipSource = broadcasterClips[randomClip]
         app.playing = true
+        setTimeout(stopPlayer, 15000);
       }
 
       if(!foundClips && pagination != null){
@@ -212,6 +213,9 @@ function chooseClips(clips, pagination){
 
   function stopPlayer(){
     app.playing = false
+    foundClips = false
+    shoutout_id = ""
+    app.shoutoutName = ""
   }
 
 
