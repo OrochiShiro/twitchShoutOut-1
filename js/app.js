@@ -22,7 +22,7 @@ var app = new Vue({
 
         if(window.location.hash) {
           var parameters = window.location.hash
-          parameters = username.replace("#", "")
+          parameters = parameters.replace("#", "")
           var splitParams = parameters.split("&")
 
           var username = splitParams[0]
