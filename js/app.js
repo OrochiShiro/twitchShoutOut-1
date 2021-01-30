@@ -117,11 +117,25 @@ var app = new Vue({
     }
     
   }
+    /* use a function for the exact format desired... */
+    function ISODateString(d){
+      function pad(n){return n<10 ? '0'+n : n}
+      return d.getUTCFullYear()+'-'
+           + pad(d.getUTCMonth()+1)+'-'
+           + pad(d.getUTCDate())+'T'
+           + pad(d.getUTCHours())+':'
+           + pad(d.getUTCMinutes())+':'
+           + pad(d.getUTCSeconds())+'Z'}
 
   function getClips(){
     var getClips = new XMLHttpRequest();
 
-    getClips.open("GET", "https://api.twitch.tv/helix/clips?broadcaster_id=" + shoutout_id);
+
+ 
+    var d = new Date();
+    d.setDate(d.getDate() - 31);
+
+    getClips.open("GET", "https://api.twitch.tv/helix/clips?broadcaster_id=" + shoutout_id + "&first=100&started_at" + ISODateString(d));
     getClips.setRequestHeader('Client-ID', 'cjw2ewijhdkcfvm194n67pvlqvo4rr');
     getClips.setRequestHeader('Authorization', 'Bearer ' + access_token);
     getClips.send();
