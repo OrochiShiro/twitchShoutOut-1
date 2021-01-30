@@ -136,7 +136,7 @@ var app = new Vue({
     d.setDate(d.getDate() - 31);
     console.log(ISODateString(d))
 
-    getClips.open("GET", "https://api.twitch.tv/helix/clips?broadcaster_id=" + shoutout_id + "&first=100&started_at=" + ISODateString(d));
+    getClips.open("GET", "https://api.twitch.tv/helix/clips?broadcaster_id=" + shoutout_id + "&first=1000&started_at=" + ISODateString(d));
     getClips.setRequestHeader('Client-ID', 'cjw2ewijhdkcfvm194n67pvlqvo4rr');
     getClips.setRequestHeader('Authorization', 'Bearer ' + access_token);
     getClips.send();
