@@ -7,10 +7,17 @@ var onlymyclips = false
 var app = new Vue({
     el: '#app',
     data: {
+      hasArgs: false,
       clipSource: "",
-      shoutout_id: ""
+      playing:false,
+      username: "",
+      onlyme: false,
+      generatedLink: "",
     },
     mounted() {
+      if(window.location.hash){
+        this.hasArgs = true
+      }
       //https://id.twitch.tv/oauth2/token?client_id=uo6dggojyb8d6soh92zknwmi5ej1q2&client_secret=nyo51xcdrerl8z9m56w9w6wg&grant_type=client_credentials
       var XML = new XMLHttpRequest();
             
@@ -62,12 +69,21 @@ var app = new Vue({
         }
 
       }
+    },
+    methods: {
+      generateLink: function (){
+      if(username = ""){
+        alert("Please enter a username!")
+      }
+        
+        this.generatedLink = "https://tetraodone.github.io/twitchShoutOut/#" + this.username
+        if(this.onlyme){
+          this.generatedLink = this.generatedLink + "&onlyme"
+        }
 
-
-
-      
-
+      }
     }
+
   })
 
 
@@ -144,6 +160,14 @@ var app = new Vue({
     randomClip = getRandomInt(0, (broadcasterClips.length - 1))
 
     app.clipSource = broadcasterClips[randomClip]
+    app.playing = true
+
+    setTimeout(stopPlayer, 15000)
+
+  }
+
+  function stopPlayer(){
+    app.playing = false
   }
 
 
