@@ -1,6 +1,7 @@
 var access_token
 var broadcast_id
 var shoutout_id
+var onlymyclips = false
 
 
 var app = new Vue({
@@ -20,8 +21,23 @@ var app = new Vue({
         access_token = obj["access_token"]
 
         if(window.location.hash) {
-          var username = window.location.hash
-          username = username.replace("#", "")
+          var parameters = window.location.hash
+          parameters = username.replace("#", "")
+          var splitParams = parameters.split("&")
+
+          var username = splitParams[0]
+          if(splitParams.length > 1){
+            if(splitParams[1] == "onlyme"){
+              onlymyclips = true
+            }
+          }
+
+          if(onlymyclips){
+            console.log("Only using clips by " + username)
+          }
+
+
+
           ComfyJS.Init( username );
 
           var userSearch = new XMLHttpRequest();
@@ -104,18 +120,30 @@ var app = new Vue({
     }
   }
 
+  function getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min) + min); //The maximum is exclusive and the minimum is inclusive
+  }
+
   function chooseClips(clips){
     var broadcasterClips = []
 
     for (x in clips){
-      if(clips[x].creator_id == broadcast_id){
+      if(onlymyclips){
+        if(clips[x].creator_id == broadcast_id){
+          broadcasterClips.push(clips[x].embed_url)
+        }
+      } else {
         broadcasterClips.push(clips[x].embed_url)
       }
-      broadcasterClips.push(clips[x].embed_url)
+      
+      
     }
 
-    app.clipSource = broadcasterClips[0]
+    randomClip = getRandomInt(0, (broadcasterClips.length - 1))
 
+    app.clipSource = broadcasterClips[randomClip]
   }
 
 
