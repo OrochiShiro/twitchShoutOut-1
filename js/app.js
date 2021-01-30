@@ -9,12 +9,14 @@ var broadcast_name
 var app = new Vue({
     el: '#app',
     data: {
+      selectedPage: 1,
       hasArgs: false,
       clipSource: "",
       playing:false,
       username: "",
       onlyme: false,
       generatedLink: "",
+      shoutoutName: ""
     },
     mounted() {
       if(window.location.hash){
@@ -75,14 +77,17 @@ var app = new Vue({
     },
     methods: {
       generateLink: function (){
-      if(username = ""){
-        alert("Please enter a username!")
-      }
-        
-        this.generatedLink = "https://tetraodone.github.io/twitchShoutOut/#" + this.username
-        if(this.onlyme){
-          this.generatedLink = this.generatedLink + "&onlyme"
+
+        if(this.username == ""){
+          alert("Please enter a username!")
+        } else {
+          this.generatedLink = "https://tetraodone.github.io/twitchShoutOut/#" + this.username
+          if(this.onlyme){
+            this.generatedLink = this.generatedLink + "&onlyme"
+          }
         }
+        
+
 
       }
     }
@@ -94,6 +99,8 @@ var app = new Vue({
 
     if( flags.broadcaster && command === "so" ) {
       console.log("Shouting out " + message)
+
+      app.shoutoutName = message
 
       var userSearch = new XMLHttpRequest();
 
@@ -113,10 +120,6 @@ var app = new Vue({
         }
         
       }
-
-      //https://api.twitch.tv/helix/clips?broadcaster_id=
-
-      //app.message = ("<iframe src=\"https://clips.twitch.tv/embed?clip=PoliteFinePlumAllenHuhu&parent=www.example.com\" frameborder=\"0\" allowfullscreen=\"true\" scrolling=\"no\" height=\"378\" width=\"620\"></iframe>")
     }
     
   }
