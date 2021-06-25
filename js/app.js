@@ -215,7 +215,7 @@ function chooseClips(clips, pagination){
     app.playing = false
     foundClips = false
     shoutout_id = ""
-    app.shoutoutName = ""
+    app.shoutoutName = null
   }
 
 
